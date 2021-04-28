@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test</title>
+  </head>
+  <body>
+    <script src="../index.js"></script>
+    <script defer>
+      oracle({
+        deepObject: "deep-object",
+        setValue: "set-value@3.0.2",
+        lodash_set: "https://cdn.jsdelivr.net/npm/lodash.set@4.3.2/index.js"
+      }).then((module) => {
+        const x = { a: 2, b: 1, c: 4 };
+        const { lodash_set } = module;
+        
+        module.setValue(x, "a", 5) // { a: 5 }
+        deepObject.set(x, "b", 3) // { b: 3 }
+        lodash_set(x, "c", 9) // { c: 9 }
+
+        console.log(x) // {a: 5, b: 3, c: 9}
+      })
+    </script>
+  </body>
+</html>
