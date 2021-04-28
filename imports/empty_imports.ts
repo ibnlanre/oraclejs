@@ -5,7 +5,7 @@
  * @example import 'src/my_lib'; // require("src/my_lib");
  */
 
-export default function empImpt(content: string) {
+export function empImpt(content: string) {
   const regexp = /import .[.\\\w/:]+["'`];?/g
   const slot = [
     /import (?<name>.[.\\\w/:]+["'`]).*/,
@@ -14,3 +14,5 @@ export default function empImpt(content: string) {
   const worker = match => [match, match.replace(...slot)]
   return this.appease(content, regexp, worker)
 }
+
+export default { empImpt }

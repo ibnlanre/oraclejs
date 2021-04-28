@@ -6,7 +6,7 @@
  * import localName from 'src/my_lib';
  * const localName = require("src/my_lib");
  */
-export default function defImpt(content: string) {
+export function defImpt(content: string) {
   const regexp = /import \w+ from .*/g
   const slot = [
     /import (?<variable>\w+) from (?<file>.[.\\\w/:]+["'`]).*/,
@@ -15,3 +15,5 @@ export default function defImpt(content: string) {
   const worker = match => [match, match.replace(...slot)]
   return this.appease(content, regexp, worker)
 }
+
+export default { defImpt }

@@ -6,7 +6,7 @@
  * // const my_lib = Object.entries(require(src/my_lib))
  * //   .reduce((acc, [key, val]) => ({ ...acc, [key]: val }), {})
  */
-export default function namespaceImpt(content: string) {
+export function namespaceImpt(content: string) {
   const regexp = /import \* as \w+ from .*/g;
   const slot = [
     /.*as (?<ns>\w+).*from (?<file>.[.\\\w/:]+.).*/,
@@ -16,3 +16,5 @@ export default function namespaceImpt(content: string) {
   const worker = (match) => [match, match.replace(...slot)];
   return this.appease(content, regexp, worker);
 }
+
+export default { namespaceImpt }

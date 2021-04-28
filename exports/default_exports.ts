@@ -5,7 +5,7 @@
  * @example export default (function () {});
  * // module.exports = (function () {});
  */
-export default function defConv(content: string) {
+export function defConv(content: string) {
   const regexp = /export default .*/g
   const slot = [
     /export default (?<module>.*)/,
@@ -14,3 +14,5 @@ export default function defConv(content: string) {
   const worker = match => [match, match.replace(...slot)]
   return this.appease(content, regexp, worker)
 }
+
+export default { defConv }

@@ -6,7 +6,7 @@
  * import { name1, name2 as n2 } from 'src/my_lib';
  * // const { name1, name2: n2 } = require("./src/my_lib");
  */
-export default function namedImpt(content: string) {
+export function namedImpt(content: string) {
   const regexp = /import {.*} from .*/g
   const worker = function (match) {
     const imported = match
@@ -26,3 +26,5 @@ export default function namedImpt(content: string) {
   }
   return this.appease(content, regexp, worker)
 }
+
+export default { namedImpt }

@@ -1,12 +1,12 @@
 {
   "name": "oraclejs",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Use node packages in the browser without compilation",
   "main": "index.js",
-  "types": "types/oracle.d.ts",
+  "types": "index.d.ts",
   "files": [
     "index.js",
-    "types"
+    "index.d.ts"
   ],
   "scripts": {
     "define_type": "tsc --project tsconfig.json --emitDeclarationOnly true --declaration --declarationDir ./types",

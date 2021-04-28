@@ -11,11 +11,11 @@ require("packages") in the browser without the need to compile first.
 
 ---
 
-Since OracleJS relies on the search pattern of [unpkg][unpkg], you can fetch packages using either only its name (to get the latest version), a fixed version (`pkg@0.0.2`), a [semver][semver] range (`pkg^2`) or a [tag][tag]. To learn more about how to do this, visit [www.unpkg.com][unpkg]. Alternatively, you may specify the address to the JS file directly, whether hosted on your personal website, [GitHub][github] or a [Content Delivery Network (CDN)][cdn].
+Since OracleJS relies on the search pattern of [unpkg][unpkg], you can fetch packages using either only its name (to get the latest version), a fixed version (`pkg@0.0.3`), a [semver][semver] range (`pkg^2`) or a [tag][tag]. To learn more about how to do this, visit [www.unpkg.com][unpkg]. Alternatively, you may specify the address to the JS file directly, whether hosted on your personal website, [GitHub][github] or a [Content Delivery Network (CDN)][cdn].
 
 Note:
 
-1. that this version can only correctly parse ***required*** JS/JSON files, and no other.
+1. that this version can only correctly parse **_required_** JS/JSON files, and no other.
 2. that heavy packages with lots of dependencies would eventually consume the heap.
 
 ---
@@ -82,7 +82,7 @@ OracleJS also exposes other internal APIs for converting ES6 modules to CommonJS
 This converts all static imports and exports to NodeJS requires
 
 ```javascript
-import { convertAll } from "oraclejs"
+import { convertAll } from "oraclejs";
 ```
 
 ### `.convertExports()`
@@ -90,7 +90,7 @@ import { convertAll } from "oraclejs"
 This converts all static `export` syntax to `module.exports` and it comes with three methods.
 
 ```javascript
-import { convertExports } from "oraclejs"
+import { convertExports } from "oraclejs";
 ```
 
 - `.defaultExports()`
@@ -99,7 +99,7 @@ import { convertExports } from "oraclejs"
   const { defaultExports } = convertExports;
 
   // module.exports = function* myGenFunc() {}
-  defaultExports("export function* myGenFunc() {}")
+  defaultExports("export function* myGenFunc() {}");
   ```
 
 - `.namedExports()`
@@ -108,7 +108,7 @@ import { convertExports } from "oraclejs"
   const { namedExports } = convertExports;
 
   // module.exports.myGenFunc = function* myGenFunc() {}
-  namedExports("export function* myGenFunc() {}")
+  namedExports("export function* myGenFunc() {}");
   ```
 
 - `.reExports()`
@@ -118,7 +118,7 @@ import { convertExports } from "oraclejs"
 
   // const { foo: default } = require('src/other_module');
   // module.exports.default = default;
-  reExports("export { foo as default } from 'src/other_module'")
+  reExports("export { foo as default } from 'src/other_module'");
   ```
 
 ### `.convertImports()`
@@ -126,7 +126,7 @@ import { convertExports } from "oraclejs"
 This converts all static `import` syntax to `require` and it comes with the following methods.
 
 ```javascript
-import { convertImports } from "oraclejs"
+import { convertImports } from "oraclejs";
 ```
 
 - `.combinedImports()`
@@ -137,7 +137,7 @@ import { convertImports } from "oraclejs"
   // const theDefault = require('src/my_lib');
   // const my_lib = Object.entries(require('src/my_lib'))
   //  .reduce((acc, [key, val]) => ({ ...acc, [key]: val }), {})
-  combinedImports("import theDefault, * as my_lib from 'src/my_lib'")
+  combinedImports("import theDefault, * as my_lib from 'src/my_lib'");
   ```
 
 - `.defaultImports()`
@@ -146,7 +146,7 @@ import { convertImports } from "oraclejs"
   const { defaultImports } = convertImports;
 
   // const localName = require('src/my_lib');
-  combinedImports("import localName from 'src/my_lib'")
+  combinedImports("import localName from 'src/my_lib'");
   ```
 
 - `.emptyImports()`
@@ -155,7 +155,7 @@ import { convertImports } from "oraclejs"
   const { emptyImports } = convertImports;
 
   // new Function("require('src/my_lib')")()
-  emptyImports("import 'src/my_lib'")
+  emptyImports("import 'src/my_lib'");
   ```
 
 - `.namedImports()`
@@ -164,7 +164,7 @@ import { convertImports } from "oraclejs"
   const { namedImports } = convertImports;
 
   // const { name1, name2 } = require('src/my_lib');
-  namedImports("import { name1, name2 } from 'src/my_lib'")
+  namedImports("import { name1, name2 } from 'src/my_lib'");
   ```
 
 - `.namespaceImports()`
@@ -174,7 +174,7 @@ import { convertImports } from "oraclejs"
 
   // const my_lib = Object.entries(require('src/my_lib'))
   //   .reduce((acc, [key, val]) => ({ ...acc, [key]: val }), {})
-  namespaceImports("import * as my_lib from 'src/my_lib'")
+  namespaceImports("import * as my_lib from 'src/my_lib'");
   ```
 
 [cdn]: https://www.cloudflare.com/learning/cdn/what-is-a-cdn/
@@ -188,4 +188,4 @@ import { convertImports } from "oraclejs"
 [typescript]: http://www.typescriptlang.org/
 [typescript-badge]: https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg
 [unpkg]: https://www.unpkg.com/
-[version-badge]: https://img.shields.io/badge/version-0.0.2-orange
+[version-badge]: https://img.shields.io/badge/version-0.0.3-orange

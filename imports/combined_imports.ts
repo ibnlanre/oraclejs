@@ -12,7 +12,7 @@
  * // const theDefault = require("src/my_lib");
  * // const { name1: n1, name2 } = require("src/my_lib");
  */
-export default function combinedImpt(content: string) {
+export function combinedImpt(content: string) {
   const regexp = /import \w+, (.*) from .*/g;
   const worker = function (match) {
     let replacement = match
@@ -64,3 +64,5 @@ export default function combinedImpt(content: string) {
   };
   return this.appease(content, regexp, worker);
 }
+
+export default { combinedImpt }
