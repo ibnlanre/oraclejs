@@ -4,13 +4,13 @@ import typescript from "@wessberg/rollup-plugin-ts";
 import { terser } from "rollup-plugin-terser";
 
 const banner = `/*!
- * OracleJS-0.0.3
+ * OracleJS-0.0.4
  * Copyright (c) 2021 Ridwan Olanrewaju.
  * Licensed under the MIT license.
  */`;
 
 export default {
-  input: "oracle.ts",
+  input: "index.ts",
   output: [
     {
       banner,
@@ -20,5 +20,5 @@ export default {
       plugins: [terser()],
     },
   ],
-  plugins: [typescript(), resolve(), commonjs()],
+  plugins: [typescript({ declaration: false }), resolve(), commonjs()],
 };

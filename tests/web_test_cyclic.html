@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test</title>
+  </head>
+  <body>
+    <script src="../index.js"></script>
+    <script>
+      oracle({
+        nodeFetch: "https://unpkg.com/node-fetch@2.6.1/lib/index.js",
+        // nodeFetch: "node-fetch"
+      }).then((imports) => { console.log(imports.nodeFetch) })
+    </script>
+  </body>
+</html>

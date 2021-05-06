@@ -7,21 +7,40 @@
   </head>
   <body>
     <script src="../index.js"></script>
-    <script defer>
-      oracle({
-        deepObject: "deep-object",
-        setValue: "set-value@3.0.2",
-        lodash_set: "https://cdn.jsdelivr.net/npm/lodash.set@4.3.2/index.js"
-      }).then((module) => {
-        const x = { a: 2, b: 1, c: 4 };
-        const { lodash_set } = module;
-        
-        module.setValue(x, "a", 5) // { a: 5 }
-        deepObject.set(x, "b", 3) // { b: 3 }
-        lodash_set(x, "c", 9) // { c: 9 }
-
-        console.log(x) // {a: 5, b: 3, c: 9}
-      })
+    <script>
+      window.test = {}; // dummy object
+    </script>
+    <script type="module">
+      await oracle({
+        deepObject: "deep-object", // fetches latest version
+        setValue: "set-value@3.0.2", // for a specific version
+      }).then(function (imports) {
+        const { deepObject, setValue } = imports;
+        deepObject.set(test, "a", 1);
+        setValue(test, "b", 2);
+        console.log(test);
+      });
+    </script>
+    <script type="module">
+      await oracle(
+        {
+          lodash_set: "lodash.set@4.3.2/index.js",
+          setPath: "https://raw.githubusercontent.com/skratchdot/object-path-set/master/index.js",
+        },
+        "https://cdn.jsdelivr.net/npm/"
+      ).then((imports) => {
+        const { lodash_set, setPath } = imports;
+        lodash_set(test, "c", 3);
+        setPath(test, "d", 4);
+        console.log(test);
+      });
+    </script>
+    <script type="module">
+      (async () => {
+        const imports = await oracle({ deepProp: "deep-property" });
+        imports.deepProp.set(test, "e", 5);
+        console.log(test);
+      })();
     </script>
   </body>
 </html>

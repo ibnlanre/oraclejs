@@ -1,67 +1,168 @@
 const { convertAll } = require("../index");
+const assert = require("assert");
 
-console.log(
-  convertAll(`
-export * from 'src/other_module';
+assert.strictEqual(
+  convertAll(
+    "export * from 'src/other_module';"),
+    `Object.entries(require('src/other_module')).forEach(
+ ([name, exported]) => (module.exports[name] = exported)
+);`
+  )
 
-export { foo as myFoo, bar } from 'src/other_module';
 
-export { default } from 'src/other_module';
+assert.strictEqual(
+  convertAll(
+    "export { foo as myFoo, bar } from 'src/other_module';"),
+    `const { foo: myFoo, bar } = require('src/other_module');
+module.exports.myFoo = myFoo;
+module.exports.bar = bar;`
+  )
 
-export { default as foo } from 'src/other_module';
 
-export { foo as default } from 'src/other_module';
+assert.strictEqual(
+  convertAll(
+    "export { default } from 'src/other_module';"),
+    `const { default } = require('src/other_module');
+module.exports.default = default;`
+  )
 
-export { MY_CONST as FOO, myFunc };
+assert.strictEqual(
+  convertAll(
+    "export { default as foo } from 'src/other_module';"),
+    `const { default: foo } = require('src/other_module');
+module.exports.foo = foo;`
+  )
 
-export { foo as default };
+assert.strictEqual(
+  convertAll(
+    "export { foo as default } from 'src/other_module';"),
+    `const { foo: default } = require('src/other_module');
+module.exports.default = default;`
+  )
 
-export var foo;
+assert.strictEqual(
+  convertAll(
+    "export { MY_CONST as FOO, myFunc };"),
+    `module.exports.FOO = MY_CONST
+module.exports.myFunc = myFunc;`
+  )
 
-export let foo;
+assert.strictEqual(
+  convertAll("export { foo as default };"), `module.exports.default = foo;`)
 
-export const foo;
+assert.strictEqual(convertAll("export var foo;"), `module.exports.foo = undefined;`)
+assert.strictEqual(convertAll("export let foo;"), `module.exports.foo = undefined;`)
+assert.strictEqual(convertAll("export const foo;"), `module.exports.foo = undefined;`)
 
-export function myFunc() {}
+assert.strictEqual(convertAll("export const PI = 3.142;"), `module.exports.PI = 3.142;`)
+assert.strictEqual(convertAll("export var foo= 'bar';"), `module.exports.foo= 'bar';`)
 
-export function* myGenFunc() {}
+assert.strictEqual(
+  convertAll(
+    "export function myFunc() {}"),
+    `module.exports.myFunc = function myFunc() {}`
+  )
 
-export class MyClass {}
+assert.strictEqual(
+  convertAll(
+    "export function* myGenFunc() {}"),
+    `module.exports.myGenFunc = function* myGenFunc() {}`
+);
 
-export default function myFunc() {}
+assert.strictEqual(
+  convertAll(
+    "export class MyClass {}"),
+    `module.exports.MyClass = class MyClass {}`
+);
 
-export default function () {}
+assert.strictEqual(
+  convertAll(
+    "export default function myFunc() {}"),
+    `module.exports = function myFunc() {}`
+);
 
-export default function* myGenFunc() {}
+assert.strictEqual(
+  convertAll("export default function () {}"), `module.exports = function () {}`)
 
-export default function* () {}
+assert.strictEqual(
+  convertAll(
+    "export default function* myGenFunc() {}"),
+    `module.exports = function* myGenFunc() {}`
+);
 
-export default class MyClass {}
+assert.strictEqual(
+  convertAll(
+    "export default function* () {}"),
+    `module.exports = function* () {}`
+);
 
-export default class {}
+assert.strictEqual(
+  convertAll(
+    "export default class MyClass {}"),
+    `module.exports = class MyClass {}`
+);
+assert.strictEqual(convertAll("export default class {}"), `module.exports = class {}`)
+assert.strictEqual(convertAll("export default foo;"), `module.exports = foo;`)
 
-export default foo;
+assert.strictEqual(
+  convertAll(
+    "export default 'Hello world!';"),
+    `module.exports = 'Hello world!';`
+);
 
-export default 'Hello world!';
+assert.strictEqual(convertAll("export default 3 * 7;"), `module.exports = 3 * 7;`)
 
-export default 3 * 7;
+assert.strictEqual(
+  convertAll(
+    "export default (function () {});"),
+    `module.exports = (function () {});`
+);
 
-export default (function () {});
+assert.strictEqual(
+  convertAll(
+    "import localName from 'src/my_lib';"),
+    `const localName = require('src/my_lib');`
+);
 
-import localName from 'src/my_lib';
+assert.strictEqual(
+  convertAll(
+    "import * as my_lib from 'src/my_lib';"),
+    `const my_lib = Object.entries(require('src/my_lib'))
+ .reduce((acc, [key, val]) => ({ ...acc, [key]: val }), {})`
+);
 
-import * as my_lib from 'src/my_lib';
+assert.strictEqual(
+  convertAll(
+    "import { name1, name2 } from 'src/my_lib';"),
+    `const { name1, name2 } = require('src/my_lib');`
+);
 
-import { name1, name2 } from 'src/my_lib';
+assert.strictEqual(
+  convertAll(
+    "import { name1 as localName1, name2 } from 'src/my_lib';"),
+    `const { name1: localName1, name2 } = require('src/my_lib');`
+);
 
-import { name1 as localName1, name2 } from 'src/my_lib';
+assert.strictEqual(
+  convertAll(
+    "import { default as foo } from 'src/my_lib';"),
+    `const { default: foo } = require('src/my_lib');`
+);
 
-import { default as foo } from 'src/my_lib';
+assert.strictEqual(
+  convertAll("import 'src/my_lib';"), `new Function("require('src/my_lib')")()`
+);
 
-import 'src/my_lib';
+assert.strictEqual(
+  convertAll(
+    "import theDefault, * as my_lib from 'src/my_lib';"),
+    `const theDefault = require('src/my_lib');
+const my_lib = Object.entries(require('src/my_lib'))
+ .reduce((acc, [key, val]) => ({ ...acc, [key]: val }), {})`
+);
 
-import theDefault, * as my_lib from 'src/my_lib';
-
-import theDefault, { name1, name2 } from 'src/my_lib';
-`)
+assert.strictEqual(
+  convertAll("import theDefault, { name1, name2 } from 'src/my_lib';"),
+  `const theDefault = require('src/my_lib');
+const { name1, name2 } = require('src/my_lib');`
 );

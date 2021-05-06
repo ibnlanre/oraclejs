@@ -1,45 +1,51 @@
-const builtins = {
+const browser_builtins = [
+  "child_process",
+  "cluster",
+  "dgram",
+  "dns",
+  "fs",
+  "module",
+  "net",
+  "querystring",
+  "readline",
+  "repl",
+  "stream",
+  "sys",
+  "timers",
+  "tls",
+  "url",
+  "util",
+  "_shims",
+  "_stream_duplex",
+  "_stream_readable",
+  "_stream_writable",
+  "_stream_transform",
+  "_stream_passthrough",
+];
+
+const modules = {
+  assert: "assert",
+  buffer: "buffer",
   console: "console-browserify",
   constants: "constants-browserify",
   crypto: "crypto-browserify",
-  http: "http-browserify",
-  buffer: "buffer",
-  os: "os-browserify/browser.js",
-  vm: "vm-browserify",
-  zlib: "zlib-browserify",
-  assert: "assert",
-  child_process: "browser-builtins/builtin/child_process.js",
-  cluster: "browser-builtins/builtin/cluster.js",
-  dgram: "browser-builtins/builtin/dgram.js",
-  dns: "browser-builtins/builtin/dns.js",
   domain: "domain-browser",
   events: "events",
-  fs: "browser-builtins/builtin/fs.js",
+  http: "http-browserify",
   https: "https-browserify",
-  module: "browser-builtins/builtin/module.js",
-  net: "browser-builtins/builtin/net.js",
+  os: "os-browserify/browser.js",
   path: "path-browserify",
   process: "process/browser.js",
   punycode: "punycode",
-  querystring: "browser-builtins/builtin/querystring.js",
-  readline: "browser-builtins/builtin/readline.js",
-  repl: "browser-builtins/builtin/repl.js",
-  stream: "browser-builtins/builtin/stream.js",
   string_decoder: "string_decoder",
-  sys: "browser-builtins/builtin/sys.js",
-  timers: "browser-builtins/builtin/timers.js",
-  tls: "browser-builtins/builtin/tls.js",
   tty: "tty-browserify",
-  url: "browser-builtins/builtin/url.js",
-  util: "browser-builtins/builtin/util.js",
-  _shims: "browser-builtins/builtin/_shims.js",
-  _stream_duplex: "browser-builtins/builtin/_stream_duplex.js",
-  _stream_readable: "browser-builtins/builtin/_stream_readable.js",
-  _stream_writable: "browser-builtins/builtin/_stream_writable.js",
-  _stream_transform: "browser-builtins/builtin/_stream_transform.js",
-  _stream_passthrough: "browser-builtins/builtin/_stream_passthrough.js",
-}
+  vm: "vm-browserify",
+  zlib: "zlib-browserify",
+};
 
-const domain = "http://www.unpkg.com/"
-const x = (obj, [name, value]) => ((obj[name] = domain + value), obj)
-export default Object.entries(builtins).reduce(x, {})
+const domain = "http://www.unpkg.com/";
+const node_modules = Object.fromEntries(
+  Object.entries(modules).map(([name, value]) => [name, domain + value])
+);
+
+export { node_modules, browser_builtins };

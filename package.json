@@ -1,6 +1,6 @@
 {
   "name": "oraclejs",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Use node packages in the browser without compilation",
   "main": "index.js",
   "types": "index.d.ts",
@@ -15,18 +15,27 @@
   },
   "keywords": [
     "npm",
-    "node",
+    "yarn",
+    "browser",
+    "browserify",
     "modules",
+    "require",
+    "import",
     "babel"
   ],
   "author": "Ridwan Olanrewaju <olaitanlanre28@gmail.com>",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ibnlanre/oraclejs/issues"
+  },
+  "homepage": "https://github.com/ibnlanre/oraclejs#readme",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.1.0",
     "@wessberg/rollup-plugin-ts": "^1.3.14",
     "rollup": "^2.38.1",
     "rollup-plugin-terser": "^7.0.2",
+    "ts-node": "^9.1.1",
     "tslib": "^2.1.0",
     "typescript": "^4.1.3"
   },

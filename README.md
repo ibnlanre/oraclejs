@@ -3,7 +3,6 @@
 [![TypeScript][typescript-badge]][typescript]
 [![code style: prettier][prettier-badge]][prettier]
 ![version][version-badge]
-[![Twitter][twitter-badge]][twitter]
 
 ```markdown
 require("packages") in the browser without the need to compile first.
@@ -11,12 +10,14 @@ require("packages") in the browser without the need to compile first.
 
 ---
 
-Since OracleJS relies on the search pattern of [unpkg][unpkg], you can fetch packages using either only its name (to get the latest version), a fixed version (`pkg@0.0.3`), a [semver][semver] range (`pkg^2`) or a [tag][tag]. To learn more about how to do this, visit [www.unpkg.com][unpkg]. Alternatively, you may specify the address to the JS file directly, whether hosted on your personal website, [GitHub][github] or a [Content Delivery Network (CDN)][cdn].
+OracleJS can fetch packages using either of the following patterns:
 
-Note:
+- its name (`pkg`), to get the latest version
+- a fixed version (`pkg@0.0.4`)
+- a [semver][semver] range (`pkg^2`)
+- or a [tag][tag] (`pkg@2.0.1-beta`)
 
-1. that this version can only correctly parse **_required_** JS/JSON files, and no other.
-2. that heavy packages with lots of dependencies would eventually consume the heap.
+To learn more about how to do this, visit [www.unpkg.com][unpkg]. Alternatively, you may specify the address to the JS file directly, whether hosted on your personal website, [GitHub][github] or a [Content Delivery Network (CDN)][cdn].
 
 ---
 
@@ -28,24 +29,41 @@ npm i oraclejs
 
 ## Browser
 
-Oracle returns a promise, so it can be used with `.then()` and `.catch()` methods
-
 ```javascript
 <script src="https://unpkg.com/oraclejs"></script>
-<script defer>
+<script>window.test = { }; // dummy object</script>
+```
+
+Oracle returns a promise, therefore it can be used with `.then()` and `.catch()` methods
+
+```javascript
+<script>
   oracle({
     deepObject: "deep-object",
     setValue: "set-value@3.0.2",
-    lodash_set: "https://cdn.jsdelivr.net/npm/lodash.set@4.3.2/index.js"
-  }).then((module) => {
-    const obj = { a: 2, b: 1, c: 4 };
-    const { lodash_set } = module; // employ a destructuring assignment
+  }).then(function (imports) {
+    const { deepObject, setValue } = imports;
+    deepObject.set(test, "a", 1)
+    setValue(test, "b", 2)
+  })
+</script>
+```
 
-    module.setValue(obj, "a", 5) // can be accessed from the module object
-    deepObject.set(obj, "b", 3) // automatically attached to the window object
-    lodash_set(obj, "c", 9) // function becomes local overriding the global
+Also, rather than using the default CDN, you may specify another as a replacement for fetching named packages. The formula is `CDN + package_name`, so make sure to cross-check the URL resolution result in a browser before using.
 
-    console.log(obj) // {a: 5, b: 3, c: 9}
+```javascript
+<script>
+  oracle(
+    {
+      lodash_set: "lodash.set@4.3.2/index.js",
+      setPath:
+        "https://raw.githubusercontent.com/skratchdot/object-path-set/master/index.js",
+    },
+    "https://cdn.jsdelivr.net/npm/"
+  ).then((imports) => {
+    const { lodash_set, setPath } = imports;
+    lodash_set(test, "c", 3)
+    setPath(test, "d", 4)
   })
 </script>
 ```
@@ -55,13 +73,13 @@ Alternatively, it can be run using async-await
 ```javascript
 <script>
   (async () => {
-    const module = await oracle({ deepProp: "deep-property" })
-    module.deepProp.set({ c: 20 }, "c", 6) // { c: 6 }
+    const imports = await oracle({ deepProp: "deep-property" })
+    imports.deepProp.set(test, "e", 5)
   })()
 </script>
 ```
 
-## Usage
+## Import
 
 ```javascript
 // ES6 Import
@@ -75,7 +93,10 @@ const { convertAll } = require("oraclejs");
 
 ## API
 
-OracleJS also exposes other internal APIs for converting ES6 modules to CommonJS modules
+```javascript
+oracle({ typeOf: "@ibnlanre/typeof" })
+  .then(() => { typeOf(null) } // "null"
+```
 
 ### `.convertAll()`
 
@@ -85,6 +106,8 @@ This converts all static imports and exports to NodeJS requires
 import { convertAll } from "oraclejs";
 ```
 
+---
+
 ### `.convertExports()`
 
 This converts all static `export` syntax to `module.exports` and it comes with three methods.
@@ -93,7 +116,7 @@ This converts all static `export` syntax to `module.exports` and it comes with t
 import { convertExports } from "oraclejs";
 ```
 
-- `.defaultExports()`
+- #### `.defaultExports()`
 
   ```javascript
   const { defaultExports } = convertExports;
@@ -102,7 +125,7 @@ import { convertExports } from "oraclejs";
   defaultExports("export function* myGenFunc() {}");
   ```
 
-- `.namedExports()`
+- #### `.namedExports()`
 
   ```javascript
   const { namedExports } = convertExports;
@@ -111,7 +134,7 @@ import { convertExports } from "oraclejs";
   namedExports("export function* myGenFunc() {}");
   ```
 
-- `.reExports()`
+- #### `.reExports()`
 
   ```javascript
   const { reExports } = convertExports;
@@ -121,6 +144,8 @@ import { convertExports } from "oraclejs";
   reExports("export { foo as default } from 'src/other_module'");
   ```
 
+---
+
 ### `.convertImports()`
 
 This converts all static `import` syntax to `require` and it comes with the following methods.
@@ -129,7 +154,7 @@ This converts all static `import` syntax to `require` and it comes with the foll
 import { convertImports } from "oraclejs";
 ```
 
-- `.combinedImports()`
+- #### `.combinedImports()`
 
   ```javascript
   const { combinedImports } = convertImports;
@@ -140,7 +165,7 @@ import { convertImports } from "oraclejs";
   combinedImports("import theDefault, * as my_lib from 'src/my_lib'");
   ```
 
-- `.defaultImports()`
+- #### `.defaultImports()`
 
   ```javascript
   const { defaultImports } = convertImports;
@@ -149,7 +174,7 @@ import { convertImports } from "oraclejs";
   combinedImports("import localName from 'src/my_lib'");
   ```
 
-- `.emptyImports()`
+- #### `.emptyImports()`
 
   ```javascript
   const { emptyImports } = convertImports;
@@ -158,7 +183,7 @@ import { convertImports } from "oraclejs";
   emptyImports("import 'src/my_lib'");
   ```
 
-- `.namedImports()`
+- #### `.namedImports()`
 
   ```javascript
   const { namedImports } = convertImports;
@@ -167,7 +192,7 @@ import { convertImports } from "oraclejs";
   namedImports("import { name1, name2 } from 'src/my_lib'");
   ```
 
-- `.namespaceImports()`
+- #### `.namespaceImports()`
 
   ```javascript
   const { namespaceImports } = convertImports;
@@ -183,9 +208,7 @@ import { convertImports } from "oraclejs";
 [prettier-badge]: https://img.shields.io/badge/code_style-prettier-f8bc45.svg
 [semver]: https://semver.npmjs.com/
 [tag]: https://docs.npmjs.com/cli/v6/commands/npm-dist-tag
-[twitter]: https://twitter.com/intent/follow?screen_name=ibnlanre
-[twitter-badge]: https://img.shields.io/twitter/follow/ibnlanre?style=social&label=Follow
 [typescript]: http://www.typescriptlang.org/
 [typescript-badge]: https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg
 [unpkg]: https://www.unpkg.com/
-[version-badge]: https://img.shields.io/badge/version-0.0.3-orange
+[version-badge]: https://img.shields.io/badge/version-0.0.4-orange
