@@ -1,5 +1,5 @@
 /*!
- * OracleJS-0.0.5
+ * OracleJS-0.1.0
  * Copyright (c) 2021 Ridwan Olanrewaju.
  * Licensed under the MIT license.
  */

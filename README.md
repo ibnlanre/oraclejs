@@ -12,10 +12,10 @@ require("packages") in the browser without the need to compile first.
 
 OracleJS can fetch packages using either of the following patterns:
 
-1. its name (`pkg`), to get the latest version
-2. a fixed version (`pkg@3.2.1`)
-3. a [semver][semver] range (`pkg^2`)
-4. or a [tag][tag] (`pkg@2.0.1-beta`)
+- its name (`pkg`), to get the latest version
+- a fixed version (`pkg@3.2.1`)
+- a [semver][semver] range (`pkg^2`)
+- or a [tag][tag] (`pkg@2.0.1-beta`)
 
 To learn more about how to do this, visit [www.unpkg.com][unpkg]. Alternatively, you may specify the address to the JS file directly, whether hosted on your personal website, [GitHub][github] or a [Content Delivery Network (CDN)][cdn].
 
@@ -82,6 +82,9 @@ Alternatively, it can be run using async-await
 ## Import
 
 ```javascript
+// For strict browser use
+import oracle from "oraclejs/browser"; 
+
 // ES6 Import
 import oracle from "oraclejs";
 import { convertExports, convertImports } from "oraclejs";
@@ -98,7 +101,7 @@ oracle({ typeOf: "@ibnlanre/typeof" })
   .then(() => { typeOf(null) } // "null"
 ```
 
-### `.convertAll()`
+### `.convertAll(code)`
 
 This converts all static imports and exports to NodeJS requires
 
@@ -108,7 +111,7 @@ import { convertAll } from "oraclejs";
 
 ---
 
-### `.convertExports()`
+### `.convertExports(code)`
 
 This converts all static `export` syntax to `module.exports` and it comes with three methods.
 
@@ -116,7 +119,7 @@ This converts all static `export` syntax to `module.exports` and it comes with t
 import { convertExports } from "oraclejs";
 ```
 
-- #### `.defaultExports()`
+  `.defaultExports(code)`
 
   ```javascript
   const { defaultExports } = convertExports;
@@ -125,7 +128,7 @@ import { convertExports } from "oraclejs";
   defaultExports("export function* myGenFunc() {}");
   ```
 
-- #### `.namedExports()`
+  `.namedExports(code)`
 
   ```javascript
   const { namedExports } = convertExports;
@@ -134,7 +137,7 @@ import { convertExports } from "oraclejs";
   namedExports("export function* myGenFunc() {}");
   ```
 
-- #### `.reExports()`
+  `.reExports(code)`
 
   ```javascript
   const { reExports } = convertExports;
@@ -146,7 +149,7 @@ import { convertExports } from "oraclejs";
 
 ---
 
-### `.convertImports()`
+### `.convertImports(code)`
 
 This converts all static `import` syntax to `require` and it comes with the following methods.
 
@@ -154,7 +157,7 @@ This converts all static `import` syntax to `require` and it comes with the foll
 import { convertImports } from "oraclejs";
 ```
 
-- #### `.combinedImports()`
+  `.combinedImports(code)`
 
   ```javascript
   const { combinedImports } = convertImports;
@@ -165,7 +168,7 @@ import { convertImports } from "oraclejs";
   combinedImports("import theDefault, * as my_lib from 'src/my_lib'");
   ```
 
-- #### `.defaultImports()`
+  `.defaultImports(code)`
 
   ```javascript
   const { defaultImports } = convertImports;
@@ -174,7 +177,7 @@ import { convertImports } from "oraclejs";
   combinedImports("import localName from 'src/my_lib'");
   ```
 
-- #### `.emptyImports()`
+  `.emptyImports(code)`
 
   ```javascript
   const { emptyImports } = convertImports;
@@ -183,7 +186,7 @@ import { convertImports } from "oraclejs";
   emptyImports("import 'src/my_lib'");
   ```
 
-- #### `.namedImports()`
+  `.namedImports(code)`
 
   ```javascript
   const { namedImports } = convertImports;
@@ -192,7 +195,7 @@ import { convertImports } from "oraclejs";
   namedImports("import { name1, name2 } from 'src/my_lib'");
   ```
 
-- #### `.namespaceImports()`
+  `.namespaceImports(code)`
 
   ```javascript
   const { namespaceImports } = convertImports;
@@ -211,4 +214,4 @@ import { convertImports } from "oraclejs";
 [typescript]: http://www.typescriptlang.org/
 [typescript-badge]: https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg
 [unpkg]: https://www.unpkg.com/
-[version-badge]: https://img.shields.io/badge/version-0.0.5-orange
+[version-badge]: https://img.shields.io/badge/version-0.1.0-orange

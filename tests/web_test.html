@@ -6,7 +6,7 @@
     <title>Test</title>
   </head>
   <body>
-    <script src="../index.js"></script>
+    <script src="../public/index.js"></script>
     <script>
       window.test = {}; // dummy object
     </script>
@@ -18,7 +18,7 @@
         const { deepObject, setValue } = imports;
         deepObject.set(test, "a", 1);
         setValue(test, "b", 2);
-        console.log(test);
+        console.log(Object.entries(test));
       });
     </script>
     <script type="module">
@@ -32,14 +32,14 @@
         const { lodash_set, setPath } = imports;
         lodash_set(test, "c", 3);
         setPath(test, "d", 4);
-        console.log(test);
+        console.log(Object.entries(test));
       });
     </script>
     <script type="module">
       (async () => {
         const imports = await oracle({ deepProp: "deep-property" });
         imports.deepProp.set(test, "e", 5);
-        console.log(test);
+        console.log(Object.entries(test));
       })();
     </script>
   </body>

@@ -9,7 +9,6 @@
     "moduleResolution": "Node",
     "experimentalDecorators": true,
     "removeComments": true,
-    "declaration": true
   },
   "exclude": [
     "**/*.d.ts"

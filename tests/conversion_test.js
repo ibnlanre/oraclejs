@@ -1,4 +1,4 @@
-const { convertAll } = require("../index");
+const { convertAll } = require("../public/index");
 const assert = require("assert");
 
 assert.strictEqual(
