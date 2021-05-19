@@ -83,7 +83,7 @@ Alternatively, it can be run using async-await
 
 ```javascript
 // For strict browser use
-import oracle from "oraclejs/browser"; 
+import oracle from "oraclejs/browser";
 
 // ES6 Import
 import oracle from "oraclejs";
@@ -119,33 +119,33 @@ This converts all static `export` syntax to `module.exports` and it comes with t
 import { convertExports } from "oraclejs";
 ```
 
-  `.defaultExports(code)`
+`.defaultExports(code)`
 
-  ```javascript
-  const { defaultExports } = convertExports;
+```javascript
+const { defaultExports } = convertExports;
 
-  // module.exports = function* myGenFunc() {}
-  defaultExports("export function* myGenFunc() {}");
-  ```
+// module.exports = function* myGenFunc() {}
+defaultExports("export function* myGenFunc() {}");
+```
 
-  `.namedExports(code)`
+`.namedExports(code)`
 
-  ```javascript
-  const { namedExports } = convertExports;
+```javascript
+const { namedExports } = convertExports;
 
-  // module.exports.myGenFunc = function* myGenFunc() {}
-  namedExports("export function* myGenFunc() {}");
-  ```
+// module.exports.myGenFunc = function* myGenFunc() {}
+namedExports("export function* myGenFunc() {}");
+```
 
-  `.reExports(code)`
+`.reExports(code)`
 
-  ```javascript
-  const { reExports } = convertExports;
+```javascript
+const { reExports } = convertExports;
 
-  // const { foo: default } = require('src/other_module');
-  // module.exports.default = default;
-  reExports("export { foo as default } from 'src/other_module'");
-  ```
+// const { foo: default } = require('src/other_module');
+// module.exports.default = default;
+reExports("export { foo as default } from 'src/other_module'");
+```
 
 ---
 
@@ -157,53 +157,53 @@ This converts all static `import` syntax to `require` and it comes with the foll
 import { convertImports } from "oraclejs";
 ```
 
-  `.combinedImports(code)`
+`.combinedImports(code)`
 
-  ```javascript
-  const { combinedImports } = convertImports;
+```javascript
+const { combinedImports } = convertImports;
 
-  // const theDefault = require('src/my_lib');
-  // const my_lib = Object.entries(require('src/my_lib'))
-  //  .reduce((acc, [key, val]) => ({ ...acc, [key]: val }), {})
-  combinedImports("import theDefault, * as my_lib from 'src/my_lib'");
-  ```
+// const theDefault = require('src/my_lib');
+// const my_lib = Object.entries(require('src/my_lib'))
+//  .reduce((acc, [key, val]) => ({ ...acc, [key]: val }), {})
+combinedImports("import theDefault, * as my_lib from 'src/my_lib'");
+```
 
-  `.defaultImports(code)`
+`.defaultImports(code)`
 
-  ```javascript
-  const { defaultImports } = convertImports;
+```javascript
+const { defaultImports } = convertImports;
 
-  // const localName = require('src/my_lib');
-  combinedImports("import localName from 'src/my_lib'");
-  ```
+// const localName = require('src/my_lib');
+combinedImports("import localName from 'src/my_lib'");
+```
 
-  `.emptyImports(code)`
+`.emptyImports(code)`
 
-  ```javascript
-  const { emptyImports } = convertImports;
+```javascript
+const { emptyImports } = convertImports;
 
-  // new Function("require('src/my_lib')")()
-  emptyImports("import 'src/my_lib'");
-  ```
+// new Function("require('src/my_lib')")()
+emptyImports("import 'src/my_lib'");
+```
 
-  `.namedImports(code)`
+`.namedImports(code)`
 
-  ```javascript
-  const { namedImports } = convertImports;
+```javascript
+const { namedImports } = convertImports;
 
-  // const { name1, name2 } = require('src/my_lib');
-  namedImports("import { name1, name2 } from 'src/my_lib'");
-  ```
+// const { name1, name2 } = require('src/my_lib');
+namedImports("import { name1, name2 } from 'src/my_lib'");
+```
 
-  `.namespaceImports(code)`
+`.namespaceImports(code)`
 
-  ```javascript
-  const { namespaceImports } = convertImports;
+```javascript
+const { namespaceImports } = convertImports;
 
-  // const my_lib = Object.entries(require('src/my_lib'))
-  //   .reduce((acc, [key, val]) => ({ ...acc, [key]: val }), {})
-  namespaceImports("import * as my_lib from 'src/my_lib'");
-  ```
+// const my_lib = Object.entries(require('src/my_lib'))
+//   .reduce((acc, [key, val]) => ({ ...acc, [key]: val }), {})
+namespaceImports("import * as my_lib from 'src/my_lib'");
+```
 
 [cdn]: https://www.cloudflare.com/learning/cdn/what-is-a-cdn/
 [github]: https://github.com/
@@ -214,4 +214,4 @@ import { convertImports } from "oraclejs";
 [typescript]: http://www.typescriptlang.org/
 [typescript-badge]: https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg
 [unpkg]: https://www.unpkg.com/
-[version-badge]: https://img.shields.io/badge/version-0.1.0-orange
+[version-badge]: https://img.shields.io/badge/version-0.1.1-orange

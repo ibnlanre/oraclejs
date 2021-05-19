@@ -1,4 +1,4 @@
-const oracle = require("../public/index")
+const oracle = require("../index")
 oracle({
   js_yaml: "js-yaml",
   setValue: "set-value",
