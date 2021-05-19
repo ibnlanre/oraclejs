@@ -1,15 +1,16 @@
 {
   "name": "oraclejs",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Use node packages in the browser without compilation",
   "main": "index.js",
-  "types": "index.d.ts",
+  "types": "types/index.d.ts",
   "files": [
     "index.js",
-    "index.d.ts"
+    "types"
   ],
   "scripts": {
     "define_type": "tsc --project tsconfig.json --emitDeclarationOnly true --declaration --declarationDir ./types",
+    "push": "npm login && npm publish --access public",
     "build": "rollup -c",
     "test": "mocha tests"
   },

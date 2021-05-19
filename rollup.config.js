@@ -4,7 +4,7 @@ import typescript from "@wessberg/rollup-plugin-ts";
 import { terser } from "rollup-plugin-terser";
 
 const banner = `/*!
- * OracleJS-0.0.4
+ * OracleJS-0.0.5
  * Copyright (c) 2021 Ridwan Olanrewaju.
  * Licensed under the MIT license.
  */`;

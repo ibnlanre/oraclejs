@@ -2,7 +2,6 @@ import { node_modules, browser_builtins } from "./builtins";
 import { convertAll, convertImports, convertExports } from "./convert";
 import is_json from "./is_json";
 
-type module_name = string;
 const stringy = (value) => typeof value === "string";
 const { log } = console;
 
@@ -48,7 +47,7 @@ const globalObject = (function async() {
 function sandbox(src, dependency?) {
   const module = { exports: {}, __esModule: true };
   const context = Object.fromEntries(globalObject.aforolagba);
-  const browser = environ || require("browser-env")()
+  const browser = environ || require("browser-env")();
   const args = [globe, module.exports, module, browser, context];
 
   try {
@@ -131,7 +130,7 @@ async function getDependencies(href, domain = CDN) {
 }
 
 async function fetcher(
-  search: { [namespace: string]: module_name },
+  search: { [namespace: string]: string },
   domain = CDN
 ) {
   const { aforolagba, deps } = globalObject;
@@ -169,10 +168,12 @@ async function fetcher(
  * @param domain - CDN for fetching modules
  */
 export default async function oracle(
-  pattern: { [namespace: string]: module_name },
+  pattern: { [namespace: string]: string },
   domain?: string
 ) {
-  return await fetcher(pattern, domain || CDN);
+  return (await fetcher(pattern, domain || CDN)) as {
+    [namespace: string]: any;
+  };
 }
 
 oracle.convertImports = convertImports;

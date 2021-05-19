@@ -12,10 +12,10 @@ require("packages") in the browser without the need to compile first.
 
 OracleJS can fetch packages using either of the following patterns:
 
-- its name (`pkg`), to get the latest version
-- a fixed version (`pkg@0.0.4`)
-- a [semver][semver] range (`pkg^2`)
-- or a [tag][tag] (`pkg@2.0.1-beta`)
+1. its name (`pkg`), to get the latest version
+2. a fixed version (`pkg@3.2.1`)
+3. a [semver][semver] range (`pkg^2`)
+4. or a [tag][tag] (`pkg@2.0.1-beta`)
 
 To learn more about how to do this, visit [www.unpkg.com][unpkg]. Alternatively, you may specify the address to the JS file directly, whether hosted on your personal website, [GitHub][github] or a [Content Delivery Network (CDN)][cdn].
 
@@ -211,4 +211,4 @@ import { convertImports } from "oraclejs";
 [typescript]: http://www.typescriptlang.org/
 [typescript-badge]: https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg
 [unpkg]: https://www.unpkg.com/
-[version-badge]: https://img.shields.io/badge/version-0.0.4-orange
+[version-badge]: https://img.shields.io/badge/version-0.0.5-orange

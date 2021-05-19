@@ -1,8 +1,7 @@
-type module_name = string;
 declare function oracle(pattern: {
-    [namespace: string]: module_name;
-}, domain?: string): Promise<{
     [namespace: string]: string;
+}, domain?: string): Promise<{
+    [namespace: string]: any;
 }>;
 declare namespace oracle {
     declare function convertImports(str: string): string;
